@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChromaLuma Hop</title>
+  <meta name="description" content="ChromaLuma Hop is a bright one-touch arcade game about timing, color matching, and clean momentum through 50 escalating levels.">
+  <style>
+    :root {
+      --bg: #05060d;
+      --panel: #11131f;
+      --text: #ffffff;
+      --muted: #b9bdc9;
+      --cyan: #13d5f2;
+      --pink: #ff1b86;
+      --yellow: #ffd21f;
+      --purple: #8635ff;
+      --line: rgba(255, 255, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .mini-ring {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background:
+        conic-gradient(var(--pink) 0 24%, transparent 24% 27%, var(--cyan) 27% 51%, transparent 51% 54%, var(--purple) 54% 76%, transparent 76% 79%, var(--yellow) 79% 100%);
+      position: relative;
+    }
+
+    .mini-ring::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      background: var(--bg);
+    }
+
+    .links {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .hero {
+      width: min(1120px, calc(100% - 40px));
+      margin: 40px auto 0;
+      display: grid;
+      grid-template-columns: 1fr 0.72fr;
+      gap: 56px;
+      align-items: center;
+      min-height: 620px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(48px, 8vw, 104px);
+      line-height: 0.92;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .tagline {
+      margin: 26px 0 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2.3vw, 24px);
+      max-width: 680px;
+    }
+
+    .actions {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .button.primary {
+      background: var(--pink);
+      border-color: var(--pink);
+    }
+
+    .hero-art {
+      min-height: 520px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .big-ring {
+      width: min(78vw, 360px);
+      height: min(78vw, 360px);
+      border-radius: 50%;
+      background:
+        conic-gradient(var(--cyan) 0 22%, transparent 22% 26%, var(--purple) 26% 48%, transparent 48% 52%, var(--yellow) 52% 74%, transparent 74% 78%, var(--pink) 78% 100%);
+      position: relative;
+      animation: spin 9s linear infinite;
+    }
+
+    .big-ring::before {
+      content: "";
+      position: absolute;
+      inset: 46px;
+      border-radius: 50%;
+      background: var(--bg);
+    }
+
+    .big-ring::after {
+      content: "";
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #fff;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .bar {
+      position: absolute;
+      width: 180px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--cyan);
+      transform: rotate(42deg);
+    }
+
+    .bar.one {
+      top: 74px;
+      right: 6px;
+      background: var(--purple);
+    }
+
+    .bar.two {
+      bottom: 74px;
+      left: 12px;
+      background: var(--yellow);
+      transform: rotate(-22deg);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    section {
+      width: min(1120px, calc(100% - 40px));
+      margin: 100px auto;
+    }
+
+    .section-title {
+      margin: 0 0 24px;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .feature {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      min-height: 190px;
+    }
+
+    .feature h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .screens {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .shot {
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #080912;
+      overflow: hidden;
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .download {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(90deg, rgba(255, 27, 134, 0.14), rgba(19, 213, 242, 0.11));
+    }
+
+    .download h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .download p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    footer {
+      width: min(1120px, calc(100% - 40px));
+      margin: 80px auto 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        min-height: auto;
+      }
+
+      .hero-art {
+        min-height: 380px;
+      }
+
+      .features,
+      .screens {
+        grid-template-columns: 1fr;
+      }
+
+      .download {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="index.html">
+        <span class="mini-ring" aria-hidden="true"></span>
+        <span>ChromaLuma Hop</span>
+      </a>
+      <div class="links">
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </nav>
+
+    <main>
+      <header class="hero">
+        <div>
+          <h1>ChromaLuma Hop</h1>
+          <p class="tagline">A one-touch arcade challenge built around color timing, clean jumps, and bright obstacle patterns.</p>
+          <div class="actions">
+            <a class="button primary" href="#screenshots">View Screenshots</a>
+            <a class="button" href="privacy.html">Privacy Policy</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="big-ring"></div>
+          <div class="bar one"></div>
+          <div class="bar two"></div>
+        </div>
+      </header>
+
+      <section id="features">
+        <h2 class="section-title">Game Features</h2>
+        <div class="features">
+          <article class="feature">
+            <h3>Color Timing</h3>
+            <p>Tap to hop through rotating color obstacles and pass only when the route is clear.</p>
+          </article>
+          <article class="feature">
+            <h3>50 Levels</h3>
+            <p>Progress through a full level set with difficulty that rises step by step.</p>
+          </article>
+          <article class="feature">
+            <h3>Star Progress</h3>
+            <p>Earn stars, replay levels, and keep your progress saved on the device.</p>
+          </article>
+          <article class="feature">
+            <h3>Audio Controls</h3>
+            <p>Switch music and sound effects on or off to play with the feel you prefer.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="screenshots">
+        <h2 class="section-title">Screenshots</h2>
+        <div class="screens">
+          <figure class="shot">
+            <img src="AppStoreAssets/iPhone_6_5/iphone_6_5_01.png" alt="ChromaLuma Hop gameplay with a triangle obstacle and color bars.">
+          </figure>
+          <figure class="shot">
+            <img src="AppStoreAssets/iPhone_6_5/iphone_6_5_02.png" alt="ChromaLuma Hop gameplay with a ring and square obstacle.">
+          </figure>
+          <figure class="shot">
+            <img src="AppStoreAssets/iPhone_6_5/iphone_6_5_03.png" alt="ChromaLuma Hop gameplay with rotating bars and circular obstacles.">
+          </figure>
+        </div>
+      </section>
+
+      <section class="download" aria-label="Game summary">
+        <div>
+          <h2>Tap. Match. Hop Higher.</h2>
+          <p>ChromaLuma Hop keeps each run focused and readable with vivid colors, simple controls, and obstacles made for quick arcade sessions.</p>
+        </div>
+        <a class="button primary" href="#screenshots">See Gameplay</a>
+      </section>
+    </main>
+
+    <footer>
+      <span>&copy; 2026 ChromaLuma Hop. All rights reserved.</span>
+      <a href="privacy.html">Privacy Policy</a>
+    </footer>
+  </div>
+</body>
+</html>
